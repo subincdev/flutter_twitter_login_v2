@@ -1,13 +1,34 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:http/http.dart' as http;
 
 const AUTHORIZE_URI = 'https://twitter.com/i/oauth2/authorize';
 
 const ACCESS_TOKEN_URI = 'https://api.twitter.com/2/oauth2/token';
 
-const ALLOWED_SCOPES = ["tweet.read","tweet.write","tweet.moderate.write","users.read","follows.read","follows.write","offline.access","space.read","mute.read","mute.write","like.read","like.write","list.read","list.write","block.read","block.write","bookmark.read","bookmark.write"];
+const ALLOWED_SCOPES = [
+  "tweet.read",
+  "tweet.write",
+  "tweet.moderate.write",
+  "users.read",
+  "users.email",
+  "follows.read",
+  "follows.write",
+  "offline.access",
+  "space.read",
+  "mute.read",
+  "mute.write",
+  "like.read",
+  "like.write",
+  "list.read",
+  "list.write",
+  "block.read",
+  "block.write",
+  "bookmark.read",
+  "bookmark.write",
+];
 
 /// send http request
 Future<Map<String, dynamic>>? httpPost(
@@ -18,7 +39,7 @@ Future<Map<String, dynamic>>? httpPost(
   final http.Response res = await _httpClient.post(
     Uri.parse(url),
     headers: <String, String>{
-      'Content-Type': "application/x-www-form-urlencoded"
+      'Content-Type': "application/x-www-form-urlencoded",
     },
     body: params,
   );
@@ -39,8 +60,6 @@ extension MapExt on Map {
   T? get<T>(String key) => this.containsKey(key) ? this[key] as T : null;
 }
 
-bool isValidScope({required String scope}){
-
+bool isValidScope({required String scope}) {
   return (ALLOWED_SCOPES.contains(scope));
-
 }
